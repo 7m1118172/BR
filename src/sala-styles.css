@@ -1,0 +1,109 @@
+/* 
+  SALA PAGE - ABSOLUTE CENTERING 
+  Forces everything into the center of the viewport regardless of RTL or other styles.
+*/
+
+.sala-page {
+  padding: 40px 16px;
+  width: 100% !important;
+  max-width: 1000px;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.sala-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
+  gap: 32px !important;
+}
+
+.sala-items {
+  width: 100% !important;
+  max-width: 800px;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px;
+}
+
+.sala-item {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  position: relative;
+  text-align: right;
+  box-sizing: border-box;
+}
+
+.sala-item img {
+  width: 60px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.sala-item-details {
+  flex: 1;
+}
+
+.sala-remove {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: var(--muted);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+[dir="ltr"] .sala-remove {
+  left: auto;
+  right: 10px;
+}
+
+.sala-summary-box {
+  width: 100% !important;
+  max-width: 450px !important;
+  margin: 40px auto !important; /* FORCED CENTER */
+  padding: 40px;
+  border-radius: 32px;
+  background: var(--panel-strong);
+  border: 1px solid var(--accent-soft);
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  box-sizing: border-box;
+}
+
+.sala-total-row {
+  font-size: 1.4rem;
+  margin: 15px 0;
+}
+
+.checkout-btn {
+  width: 100% !important;
+  padding: 18px !important;
+  font-size: 1.1rem !important;
+  border-radius: 14px !important;
+  background: var(--accent) !important;
+  color: #000 !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  border: none;
+}

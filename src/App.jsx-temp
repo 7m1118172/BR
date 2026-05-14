@@ -1,0 +1,152 @@
+import { useEffect, useMemo, useState } from 'react';
+import { BrowserRouter, Link, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import iconSun from '../icon/sunny.png';
+import iconMoon from '../icon/moon.png';
+import iconArabic from '../icon/arabic-language.png';
+import iconEnglish from '../icon/english-language.png';
+import iconCart from '../icon/shopping-basket.png';
+import productsData from './data/products.js';
+import translations from './translations.js';
+import siteLogo from '../logo/clothing-store-logo-design-with-hanger-illustration-vector.webp';
+
+function App() {
+  const [mode, setMode] = useState('dark');
+  const [locale, setLocale] = useState('ar');
+  const [currency, setCurrency] = useState('SAR');
+  const [cart, setCart] = useState([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [products, setProducts] = useState(productsData);
+  const [categories, setCategories] = useState([...new Set(productsData.map((product) => product.category))]);
+  const [toasts, setToasts] = useState([]);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = mode;
+  }, [mode]);
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
+  }, [locale]);
+
+  const t = translations[locale];
+
+  const currencySymbol = useMemo(() => {
+    const symbols = { USD: '$', EUR: '€', GBP: '£', AED: 'د.إ', KWD: 'د.ك', SAR: 'ر.س' };
+    return symbols[currency] || 'ر.س';
+  }, [currency]);
+
+  const priceFactor = useMemo(() => {
+    const factors = { USD: 0.27, EUR: 0.25, GBP: 0.22, AED: 0.28, KWD: 0.08, SAR: 1 };
+    return factors[currency] || 1;
+  }, [currency]);
+
+  const toast = (title, description, variant = 'success') => {
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    setToasts((prev) => [...prev, { id, title, description, variant }]);
+    setTimeout(() => setToasts((prev) => prev.filter((item) => item.id !== id)), 4500);
+  };
+
+  const sortedProducts = useMemo(
+    () => products.map((p) => ({ 
+      ...p, 
+      priceLabel: `${currencySymbol}${(p.price * priceFactor).toFixed(0)}` 
+    })),
+    [products, currencySymbol, priceFactor]
+  );
+
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  return (
+    <BrowserRouter>
+      <AppContent 
+        mode={mode} setMode={setMode} 
+        locale={locale} setLocale={setLocale} 
+        currency={currency} setCurrency={setCurrency} 
+        cart={cart} setCart={setCart} 
+        cartOpen={cartOpen} setCartOpen={setCartOpen} 
+        products={sortedProducts} setProducts={setProducts} 
+        categories={categories} setCategories={setCategories} 
+        toasts={toasts} toast={toast} 
+        currencySymbol={currencySymbol} totalItems={totalItems} 
+        t={t}
+      />
+    </BrowserRouter>
+  );
+}
+
+function AppContent({ mode, setMode, locale, setLocale, currency, setCurrency, cart, setCart, cartOpen, setCartOpen, products, setProducts, categories, setCategories, toasts, toast, currencySymbol, totalItems, t }) {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  return (
+    <div className={`app shell ${mode}`}>
+      <ToastPanel toasts={toasts} />
+      
+      {!isAdmin && (
+        <>
+          <CartDrawer open={cartOpen} cart={cart} currencySymbol={currencySymbol} onUpdate={(id, d) => {
+            setCart(prev => prev.map(item => item.id === id ? { ...item, quantity: Math.max(1, item.quantity + d) } : item));
+          }} onRemove={(id) => setCart(prev => prev.filter(i => i.id !== id))} onClose={() => setCartOpen(false)} t={t} />
+
+          <header className="header glass-panel">
+            <div className="brand-block">
+              <Link to="/" className="brand-link">
+                <span className="brand-mark-new">
+                  <img src={siteLogo} alt="HAYA Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                </span>
+                <div>
+                  <span className="brand-name">HAYA</span>
+                  <span className="brand-claim">{t.header.tagline}</span>
+                </div>
+              </Link>
+            </div>
+
+            <nav className="header-nav">
+              <Link to="/">{t.header.home}</Link>
+              {categories.map((category) => (
+                <a key={category} href={`#category-${category}`} className="category-link">
+                  {t.categoryLabels?.[category] || category}
+                </a>
+              ))}
+            </nav>
+
+            <div className="controls">
+              <button type="button" className="icon-button" onClick={() => setMode((prev) => (prev === 'dark' ? 'light' : 'dark'))} aria-label={t.controls.toggleTheme}>
+                <img src={mode === 'dark' ? iconSun : iconMoon} alt="" />
+              </button>
+              <button type="button" className="icon-button" onClick={() => setLocale((prev) => (prev === 'ar' ? 'en' : 'ar'))} aria-label={t.controls.toggleLanguage}>
+                <img src={locale === 'ar' ? iconEnglish : iconArabic} alt="" />
+              </button>
+              <select value={currency} onChange={(e) => setCurrency(e.target.value)} aria-label={t.controls.currency}>
+                <option value="SAR">SAR</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="AED">AED</option>
+                <option value="KWD">KWD</option>
+              </select>
+              <CartHeaderButton count={totalItems} onOpen={() => setCartOpen(true)} />
+            </div>
+          </header>
+        </>
+      )}
+
+      <main className={isAdmin ? "admin-wrapper" : "page-content glass-panel soft-shadow"}>
+        <AnimatedRoutes
+          products={products}
+          cart={cart}
+          setCart={setCart}
+          t={t}
+          currencySymbol={currencySymbol}
+          categories={categories}
+          setProducts={setProducts}
+          setCategories={setCategories}
+          toast={toast}
+        />
+      </main>
+      
+      {!isAdmin && <FooterBar t={t} onSocialClick={() => toast(t.toast.betaTitle, t.footer.betaMessage, 'warning')} />}
+    </div>
+  );
+}
