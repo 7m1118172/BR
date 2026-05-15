@@ -16,6 +16,7 @@ const products = [
       new URL(`../../photo/t-shrt/${i + 1}/1.avif`, import.meta.url).href,
       new URL(`../../photo/t-shrt/${i + 1}/2.avif`, import.meta.url).href,
       new URL(`../../photo/t-shrt/${i + 1}/3.avif`, import.meta.url).href,
+      new URL(`../../photo/t-shrt/${i + 1}/4.avif`, import.meta.url).href,
     ],
   })),
   // Hoodies
@@ -34,6 +35,8 @@ const products = [
     images: [
       new URL(`../../photo/hodi/${i + 1}/1.avif`, import.meta.url).href,
       new URL(`../../photo/hodi/${i + 1}/2.avif`, import.meta.url).href,
+      new URL(`../../photo/hodi/${i + 1}/3.avif`, import.meta.url).href,
+      new URL(`../../photo/hodi/${i + 1}/4.avif`, import.meta.url).href,
     ],
   })),
   // Pants
@@ -52,6 +55,8 @@ const products = [
     images: [
       new URL(`../../photo/jenz/${i + 1}/1.avif`, import.meta.url).href,
       new URL(`../../photo/jenz/${i + 1}/2.avif`, import.meta.url).href,
+      new URL(`../../photo/jenz/${i + 1}/3.avif`, import.meta.url).href,
+      new URL(`../../photo/jenz/${i + 1}/4.avif`, import.meta.url).href,
     ],
   })),
   // Sets
@@ -70,6 +75,8 @@ const products = [
     images: [
       new URL('../../photo/Sets/1/1.avif', import.meta.url).href,
       new URL('../../photo/Sets/1/2.avif', import.meta.url).href,
+      new URL('../../photo/Sets/1/3.avif', import.meta.url).href,
+      new URL('../../photo/Sets/1/4.avif', import.meta.url).href,
     ],
   },
 ];

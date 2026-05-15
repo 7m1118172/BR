@@ -28,7 +28,7 @@ function App() {
   });
   const [cartOpen, setCartOpen] = useState(false);
   const [products, setProducts] = useState(() => {
-    const saved = localStorage.getItem('haya_products');
+    const saved = localStorage.getItem('haya_products_v2');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -45,7 +45,7 @@ function App() {
 
   // Save to LocalStorage whenever products change
   useEffect(() => {
-    localStorage.setItem('haya_products', JSON.stringify(products));
+    localStorage.setItem('haya_products_v2', JSON.stringify(products));
     setCategories([...new Set(products.map((p) => p.category))]);
   }, [products]);
 
