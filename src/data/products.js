@@ -11,6 +11,8 @@ const products = [
     description: 'تيشيرت بتصميم فريد وقصة مريحة تناسب الاستخدام اليومي بلمسة فاخرة.',
     descriptionEn: 'A unique design t-shirt with a comfortable fit for daily luxury wear.',
     sizes: ['S', 'M', 'L', 'XL'],
+    stock: 500,
+    isPreorder: false,
     heroImage: new URL(`../../photo/t-shrt/${i + 1}/1.avif`, import.meta.url).href,
     images: [
       new URL(`../../photo/t-shrt/${i + 1}/1.avif`, import.meta.url).href,
@@ -24,13 +26,15 @@ const products = [
     id: `hodi-${i + 1}`,
     name: `هودي فاخر ${i + 1}`,
     nameEn: `Luxury Hoodie ${i + 1}`,
-    category: 'Hoodies',
+    category: i === 0 ? 'Pre-orders' : 'Hoodies',
     price: 250 + i * 10,
     material: 'صوف قطني ثقيل',
     materialEn: 'Heavy Cotton Fleece',
     description: 'هودي شتوي دافئ بتصميم عصري وألوان جذابة.',
     descriptionEn: 'A warm winter hoodie with a modern design and attractive colors.',
     sizes: ['M', 'L', 'XL'],
+    stock: i === 0 ? 50 : 500,
+    isPreorder: i === 0,
     heroImage: new URL(`../../photo/hodi/${i + 1}/1.avif`, import.meta.url).href,
     images: [
       new URL(`../../photo/hodi/${i + 1}/1.avif`, import.meta.url).href,
@@ -40,17 +44,19 @@ const products = [
     ],
   })),
   // Pants
-  ...Array.from({ length: 3 }, (_, i) => ({
+  ...Array.from({ length: 4 }, (_, i) => ({
     id: `jenz-${i + 1}`,
-    name: `سروال جينز ${i + 1}`,
-    nameEn: `Denim Jeans ${i + 1}`,
+    name: `سروال أنيق ${i + 1}`,
+    nameEn: `Elegant Pants ${i + 1}`,
     category: 'Pants',
-    price: 180 + i * 5,
-    material: 'دينيم عالي الجودة',
-    materialEn: 'High Quality Denim',
+    price: 180 + i * 15,
+    material: 'جينز مرن',
+    materialEn: 'Stretch Denim',
     description: 'سروال جينز بقصة متقنة وتفاصيل تعكس الجودة والفخامة.',
     descriptionEn: 'Well-tailored jeans with details reflecting quality and luxury.',
     sizes: ['30', '32', '34', '36'],
+    stock: 500,
+    isPreorder: false,
     heroImage: new URL(`../../photo/jenz/${i + 1}/1.avif`, import.meta.url).href,
     images: [
       new URL(`../../photo/jenz/${i + 1}/1.avif`, import.meta.url).href,
@@ -60,17 +66,19 @@ const products = [
     ],
   })),
   // Sets
-  {
-    id: 'sets-1',
-    name: 'طقم كامل بريميوم',
-    nameEn: 'Full Premium Set',
+  ...Array.from({ length: 1 }, (_, i) => ({
+    id: `sets-${i + 1}`,
+    name: `طقم كاجوال فاخر ${i + 1}`,
+    nameEn: `Luxury Casual Set ${i + 1}`,
     category: 'Sets',
-    price: 380,
-    material: 'ألياف تقنية فاخرة',
-    materialEn: 'Premium Tech Fibers',
+    price: 350 + i * 20,
+    material: 'مزيج القطن والكتان',
+    materialEn: 'Cotton Linen Blend',
     description: 'طقم متكامل يجمع بين الأناقة والراحة المطلقة في كل الأوقات.',
     descriptionEn: 'An integrated set combining style and ultimate comfort at all times.',
     sizes: ['S', 'M', 'L'],
+    stock: 500,
+    isPreorder: false,
     heroImage: new URL('../../photo/Sets/1/1.avif', import.meta.url).href,
     images: [
       new URL('../../photo/Sets/1/1.avif', import.meta.url).href,
@@ -78,7 +86,7 @@ const products = [
       new URL('../../photo/Sets/1/3.avif', import.meta.url).href,
       new URL('../../photo/Sets/1/4.avif', import.meta.url).href,
     ],
-  },
+  })),
 ];
 
 export default products;
